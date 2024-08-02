@@ -112,8 +112,34 @@ reboot
 
 再起動後, `nvidia-smi`で動作確認.
 
+# CUDAのインストール
 
+[CUDA Toolkit](https://developer.nvidia.com/cuda-downloads)からインストールコマンドを取得し, 実行.</br>
+Installer Typeは**deb(network)**を選択.</br>
+下記は取得したコマンドの例.
 
+```
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-6
+```
+
+終了後`reboot`で再起動.</br>
+再起動後, `sudo vim ~/.bashrc`でファイルを開き以下を記述.
+
+```
+export PATH=/usr/local/cuda:/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+```
+
+記入後, `source ~/.bashrc`を実行. 以下コマンドで確認.
+
+```
+nvcc -V
+```
+
+バージョンが確認できれば, インストール終了.
 
 # 参考文献
 
@@ -124,5 +150,6 @@ reboot
 5. [Ubuntu17.10にNVIDIAドライバをインストールしてみた。](https://qiita.com/tatsuya11bbs/items/be6ceb85eee074c57b71)
 6. [Ubuntu に最新の NVIDIA Driver をインストールする。](https://zondeel.hateblo.jp/entry/2014/08/29/202919)
 7. [nvidiaのdriverをインストール(ubuntu)](https://mikemoke.hatenablog.com/entry/2015/06/23/004739)
-8. [Ubuntu Linux 22.04 設定メモ](https://qiita.com/j0306043/items/fcc9546056eeca5b025a)
-9. [Driver install fails with the error [An error occurred while performing the step: “building kernel modules”. See /var/log/nvidia-installer.log…]](https://forums.developer.nvidia.com/t/driver-install-fails-with-the-error-an-error-occurred-while-performing-the-step-building-kernel-modules-see-var-log-nvidia-installer-log/280385/1)
+8. [UbuntuでCUDA，NVIDIAドライバ，cudnnをインストールし，PyTorchでGPU環境を使えるようにするまで](https://qiita.com/tf63/items/0c6da72fe749319423b4)
+9. [Ubuntu Linux 22.04 設定メモ](https://qiita.com/j0306043/items/fcc9546056eeca5b025a)
+10. [Driver install fails with the error [An error occurred while performing the step: “building kernel modules”. See /var/log/nvidia-installer.log…]](https://forums.developer.nvidia.com/t/driver-install-fails-with-the-error-an-error-occurred-while-performing-the-step-building-kernel-modules-see-var-log-nvidia-installer-log/280385/1)
